@@ -101,6 +101,20 @@ When a long option has an argument, `getopt_long` puts the argument value in the
 
 When `getopt_long` has no more options to handle, it returns `-1`, and leaves in the variable `optind` the index in `argv` of the next remaining argument.
 
+Since long option names were used before `getopt_long` was invented there are program interfaces which require programs to recognize options like `-option value` instead of `--option value`. To enable these programs to use the GNU `getopt` functionality there is [one more function](#the-getopt_long_only-function) available.
+
+#### The `getopt_long_only` Function
+
+The `getopt_long_only` function is equivalent to the `getopt_long` function but it allows the user of the application to pass long options with only `-` instead of `--`. The `--` prefix is still recognized but instead of looking through the short options if a `-` is seen it is first tried whether this parameter names a long option. If not, it is parsed as a short option.
+
+Assuming getopt_long_only is used starting an application with
+
+```
+app -foo
+```
+
+the `getopt_long_only` will first look for a long option named `foo`. If this is not found, the short options `f`, `o`, and again `o` are recognized.
+
 ## References
 
 * [Program Arguments](https://www.gnu.org/software/libc/manual/html_node/Program-Arguments.html): The GNU libc manual that describes how libc handles program arguments.
