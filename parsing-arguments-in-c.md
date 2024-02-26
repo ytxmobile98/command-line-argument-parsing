@@ -43,8 +43,7 @@ The `getopt` function gets the next option argument from the argument list speci
 
 The options argument is a string that specifies the option characters that are valid for this program. An option character in this string can be followed by a colon (`:`) to indicate that it takes a required argument. If an option character is followed by two colons (`::`), its argument is optional; this is a GNU extension.
 
-`getopt` has three ways to deal with options that follow non-options argv elements. The special argument `--` forces in all cases the end of option scanning.
-
+`getopt` has three ways to deal with options that follow non-options `argv` elements. The special argument `--` forces in all cases the end of option scanning.
 
 * The default is to permute the contents of argv while scanning it so that eventually all the non-options are at the end. This allows options to be given in any order, even with programs that were not written to expect this.
 * If the `options` argument string begins with a hyphen (`-`), this is treated specially. It permits arguments that are not options to be returned as if they were associated with option character `\1`.
@@ -83,6 +82,24 @@ struct option {
 | <code>_const char *_ **name**</code> | This field is the name of the option. It is a string. |
 | <code>_int_ **has_arg**</code> | This field says whether the option takes an argument. It is an integer, and there are three legitimate values: `no_argument`, `required_argument` and `optional_argument`. |
 | <code>_int *_ **flag**</code><br/><code>_int_ **val**</code> | <p>These fields control how to report or act on the option when it occurs.</p><p>If `flag` is a null pointer, then the `val` is a value which identifies this option. Often these values are chosen to uniquely identify particular long options.</p><p>If `flag` is not a null pointer, it should be the address of an `int` variable which is the flag for this option. The value in `val` is the value to store in the flag to indicate that the option was seen.</p> |
+
+#### The `getopt_long` Function
+
+Decode options from the vector `argv` (whose length is `argc`). The argument `shortopts` describes the short options to accept, just as it does in `getopt`. The argument `longopts` describes the long options to accept (see above).
+
+When `getopt_long` encounters a short option, it does the same thing that `getopt` would do: it returns the character code for the option, and stores the option's argument (if it has one) in `optarg`.
+
+When `getopt_long` encounters a long option, it takes actions based on the `flag` and `val` fields of the definition of that option. The option name may be abbreviated as long as the abbreviation is unique.
+
+If `flag` is a null pointer, then `getopt_long` returns the contents of `val` to indicate which option it found. You should arrange distinct values in the `val` field for options with different meanings, so you can decode these values after `getopt_long` returns. If the long option is equivalent to a short option, you can use the short option's character code in `val`.
+
+If `flag` is not a null pointer, that means this option should just set a flag in the program. The flag is a variable of type `int` that you define. Put the address of the flag in the `flag` field. Put in the `val` field the value you would like this option to store in the flag. In this case, `getopt_long` returns `0`.
+
+For any long option, getopt_long tells you the index in the array longopts of the options definition, by storing it into `*indexptr`. You can get the name of the option with `longopts[*indexptr].name`. So you can distinguish among long options either by the values in their `val` fields or by their indices. You can also distinguish in this way among long options that set flags.
+
+When a long option has an argument, `getopt_long` puts the argument value in the variable `optarg` before returning. When the option has no argument, the value in `optarg` is a null pointer. This is how you can tell whether an optional argument was supplied.
+
+When `getopt_long` has no more options to handle, it returns `-1`, and leaves in the variable `optind` the index in `argv` of the next remaining argument.
 
 ## References
 
