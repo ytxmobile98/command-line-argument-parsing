@@ -55,3 +55,42 @@ The options argument is a string that specifies the option characters that are v
 If the option has an argument, `getopt` returns the argument by storing it in the variable `optarg`. You don't ordinarily need to copy the `optarg` string, since it is a pointer into the original `argv` array, not into a static area that might be overwritten.
 
 If `getopt` finds an option character in `argv` that was not included in options, or a missing option argument, it returns `?` and sets the external variable `optopt` to the actual option character. If the first character of options is a colon (`:`), then `getopt` returns `:` instead of `?` to indicate a missing option argument. In addition, if the external variable `opterr` is nonzero (which is the default), `getopt` prints an error message.
+
+### The `getopt_long` And `getopt_long_only` Functions
+
+These two functions are used to parse arguments with _long options_.
+
+```c
+int getopt_long(int argc, char *const *argv, const char *shortopts, const struct option *longopts, int *indexptr);
+int getopt_long_only(int argc, char *const *argv, const char *shortopts, const struct option *longopts, int *indexptr);
+```
+
+#### The `option` structure
+
+The `option` structure has the following members:
+
+```c
+struct option {
+    const char *name;
+    int         has_arg;
+    int        *flag;
+    int         val;
+};
+```
+
+| Field | Description |
+|-------|-------------|
+| <code>_const char *_ **name**</code> | This field is the name of the option. It is a string. |
+| <code>_int_ **has_arg**</code> | This field says whether the option takes an argument. It is an integer, and there are three legitimate values: `no_argument`, `required_argument` and `optional_argument`. |
+| <code>_int *_ **flag**</code><br/><code>_int_ **val**</code> | <p>These fields control how to report or act on the option when it occurs.</p><p>If `flag` is a null pointer, then the `val` is a value which identifies this option. Often these values are chosen to uniquely identify particular long options.</p><p>If `flag` is not a null pointer, it should be the address of an `int` variable which is the flag for this option. The value in `val` is the value to store in the flag to indicate that the option was seen.</p> |
+
+## References
+
+* [Program Arguments](https://www.gnu.org/software/libc/manual/html_node/Program-Arguments.html): The GNU libc manual that describes how libc handles program arguments.
+    * [Program Argument Syntax Conventions](https://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html)
+    * [Parsing Program Arguments](https://www.gnu.org/software/libc/manual/html_node/Parsing-Program-Arguments.html)
+        * [Parsing Program Arguments Using `getopt`](https://www.gnu.org/software/libc/manual/html_node/Getopt.html)
+            * [Using the `getopt` function](https://www.gnu.org/software/libc/manual/html_node/Using-Getopt.html)
+            * [Example of Parsing Arguments with `getopt`](https://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html)
+            * [Parsing Long Options with `getopt_long`](https://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Options.html)
+            * [Example of Parsing Long Options with `getopt_long`](https://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Option-Example.html)
