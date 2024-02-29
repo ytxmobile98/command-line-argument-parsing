@@ -115,6 +115,11 @@ app -foo
 
 the `getopt_long_only` will first look for a long option named `foo`. If this is not found, the short options `f`, `o`, and again `o` are recognized.
 
+## Examples
+
+* [`getopt` example](./examples/c/getopt/)
+* [`getopt_long` example](./examples/c/getopt_long/)
+
 ## References
 
 * [Program Arguments](https://www.gnu.org/software/libc/manual/html_node/Program-Arguments.html): The GNU libc manual that describes how libc handles program arguments.
