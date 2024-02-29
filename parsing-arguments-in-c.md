@@ -3,7 +3,7 @@
 Here we describe two ways of parsing command line arguments in C:
 
 1. [Using the `getopt` function](#using-the-getopt-function)
-2. Using the `argp` interface
+2. [Using the `argp` interface](#using-the-argp-interface)
 
 ## Using the `getopt` function
 
@@ -153,6 +153,30 @@ int main(int argc, char **argv) {
     exit(EXIT_SUCCESS);
 }
 ```
+
+## Using the `argp` Interface
+
+The GNU C Library also provides the `argp` interface to parse command line arguments. The `argp` utilities are more feature-rich than the `getopt` family functions. For example, `argp` can automatically generate output messages in response to the `--help` and `--usage` options, as described in the GNU coding standards, so that using `argp` makes programmers less likely to neglect implementing these options or to keep them up-to-date.
+
+`argp` also provides the ability to merge several independently defined option parsers into one, mediating conflicts between them and making the result appear seamless. A library can export an `argp` option parser that user programs might employ in conjunction with their own option parsers, resulting in less work for the user programs. Some programs may use only argument parsers exported by libraries, thereby achieving consistent and efficient option-parsing for abstractions implemented by the libraries.
+
+The main interface to `argp` is the `argp_parse` function. To use it, you need to `#include <argp.h>`.
+
+For programs with a complex set of options, one single layer of options is usually enough. Hence these programs need to support sub-options so that they can group different sets of related options together to perform various tasks. Hence there is the `getsubopt` function for these programs to handle sub-options.
+
+There is also the `argp_help` function to print help messages. There are also functions that can be used in `argp` parsers: `argp_usage`, `argp_error`, `argp_failure` and `argp_state_help`.
+
+| Function | Header File | Remarks |
+|----------|-------------|---------|
+| <code>_error_t_ **argp_parse** _(const struct argp *argp, int argc, char **argv, unsigned flags, int *arg\_index, void *input)_</code> | `<argp.h>` | Parse arguments in `argv`, of length `argc`, using the parser `argp`. The `flags` argument is a bit mask of flags that control the behavior of the parser. The `arg_index` argument is a pointer to an integer that will be set to the index of the first non-option argument in `argv`. The `input` argument is a pointer to a structure that will be filled with the parsed values. |
+| <code>_int_ **getsubopt** _(char **optionp, char *const *tokens, char **valuep)_</code> | `<stdlib.h>` | Parse sub-options. It can be used by programs that perform various tasks, where each task has a set of options that are closely related together. |
+| <code>_void_ **argp_help** _(const struct argp *argp, FILE *stream, unsigned flags, char *name)_</code> | `<argp.h>` | Print help message. |
+| <code>_int_ **argp_usage** _(const struct argp\_state *state)_</code> | `<argp.h>` | Outputs the standard usage message for the `argp` parser referred to by state to `state->err_stream` and terminates the program with `exit (argp_err_exit_status)`. |
+| <code>_void_ **argp_error** _(const struct argp\_state *state, const char *fmt, …)_</code> | `<argp.h>` | Prints the `printf` format string `fmt` and following args, preceded by the program name and `:`, and followed by a `Try … --help` message, and terminates the program with an exit status of `argp_err_exit_status`. |
+| <code>_void_ **argp_failure** _(const struct argp\_state *state, int status, int errnum, const char *fmt, …)_</code> | `<argp.h>` | Similar to the standard GNU error-reporting function error, this prints the program name and `:`, the `printf` format string `fmt`, and the appropriate following args. If it is non-zero, the standard unix error text for `errnum` is printed. If status is non-zero, it terminates the program with that value as its exit status.<br/>The difference between `argp_failure` and `argp_error` is that `argp_error` is for parsing errors, whereas `argp_failure` is for other problems that occur during parsing but don't reflect a syntactic problem with the input, such as illegal values for options, bad phase of the moon, etc. |
+| <code>_void_ **argp_state_help** _(const struct argp\_state *state, FILE *stream, unsigned flags)_</code> | `<argp.h>` | Outputs a help message for the `argp` parser referred to by `state`, to `stream`. The `flags` argument determines what sort of help message is produced. |
+
+For brevity we will not cover each function in detail here. You can go to the [GNU libc manual](https://www.gnu.org/software/libc/manual/html_node/Argp.html) website to read the complete documentation.
 
 ## References
 
