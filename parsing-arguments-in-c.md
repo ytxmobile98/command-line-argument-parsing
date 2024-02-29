@@ -178,6 +178,16 @@ There is also the `argp_help` function to print help messages. There are also fu
 
 For brevity we will not cover each function in detail here. You can go to the [GNU libc manual](https://www.gnu.org/software/libc/manual/html_node/Argp.html) website to read the complete documentation.
 
+Here we present some examples to show how Argp can be used in different use cases:
+
+* Argp Examples:
+    1. [A Minimal Program Using Argp](https://www.gnu.org/software/libc/manual/html_node/Argp-Example-1.html)
+    2. [A Program Using Argp with Only Default Options](https://www.gnu.org/software/libc/manual/html_node/Argp-Example-2.html)
+    3. [A Program Using Argp with User Options](https://www.gnu.org/software/libc/manual/html_node/Argp-Example-3.html)
+    4. [A Program Using Multiple Combined Argp Parsers](https://www.gnu.org/software/libc/manual/html_node/Argp-Example-4.html)
+* Parsing of Sub-Options:
+    1. [Parsing Sub-Options](https://www.gnu.org/software/libc/manual/html_node/Suboptions.html)
+
 ## References
 
 * [Program Arguments](https://www.gnu.org/software/libc/manual/html_node/Program-Arguments.html): The GNU libc manual that describes how libc handles program arguments.
