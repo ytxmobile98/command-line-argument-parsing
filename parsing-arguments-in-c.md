@@ -181,12 +181,37 @@ For brevity we will not cover each function in detail here. You can go to the [G
 Here we present some examples to show how Argp can be used in different use cases:
 
 * Argp Examples:
-    1. [A Minimal Program Using Argp](https://www.gnu.org/software/libc/manual/html_node/Argp-Example-1.html)
+    1. [A Minimal Program Using Argp](#a-minimal-program-using-argp)
     2. [A Program Using Argp with Only Default Options](https://www.gnu.org/software/libc/manual/html_node/Argp-Example-2.html)
     3. [A Program Using Argp with User Options](https://www.gnu.org/software/libc/manual/html_node/Argp-Example-3.html)
     4. [A Program Using Multiple Combined Argp Parsers](https://www.gnu.org/software/libc/manual/html_node/Argp-Example-4.html)
 * Parsing of Sub-Options:
     1. [Parsing Sub-Options](https://www.gnu.org/software/libc/manual/html_node/Suboptions.html)
+
+### Examples
+
+#### A Minimal Program Using Argp
+
+> From: <https://www.gnu.org/software/libc/manual/html_node/Argp-Example-1.html>
+
+This is a minimal example of a program that uses Argp. It won't do much except give an error message and exit when there are any arguments, and print a (rather pointless) message for `--help`.
+
+> Source: [`examples/c/argp/1_minimal-program-using-argp/main.c`](./examples/c/argp/1_minimal-program-using-argp/main.c)
+
+```c
+/* This is (probably) the smallest possible program that
+  uses argp.  It won't do much except give an error
+  messages and exit when there are any arguments, and print
+  a (rather pointless) messages for –help. */
+
+#include <argp.h>
+#include <stdlib.h>
+
+int main(int argc, char **argv) {
+  argp_parse(0, argc, argv, 0, 0, 0);
+  exit(0);
+}
+```
 
 ## References
 
