@@ -45,8 +45,8 @@
                 OPTION_ARG_OPTIONAL – The argument to this option is optional
                 OPTION_ALIAS        – This option is an alias for the
                                       previous option
-                OPTION_HIDDEN       – Don't show this option in –help output
-    DOC    – A documentation string for this option, shown in –help output
+                OPTION_HIDDEN       – Don't show this option in --help output
+    DOC    – A documentation string for this option, shown in --help output
 
   An options vector should be terminated by an option with all fields zero. */
 
