@@ -9,11 +9,13 @@ Here we describe two ways of parsing command line arguments in C:
 
 The `getopt` family includes the three following functions:
 
-| Function | Signature | Header File |
-|----------|-----------|-------------|
-| **`getopt`** | <code>_int_ **getopt** _(int argc, char *const *argv, const char *options)_</code> | `<unistd.h>` |
-| **`getopt_long`** | <code>_int_ **getopt_long** _(int argc, char *const *argv, const char *shortopts, const struct option *longopts, int *indexptr)_</code> | `<getopt.h>` |
-| **`getopt_long_only`** | <code>_int_ **getopt_long_only** _(int argc, char *const *argv, const char *shortopts, const struct option *longopts, int *indexptr)_</code> | `<getopt.h>` |
+| Function | Header File | Remarks |
+|----------|-------------|---------|
+| <code>_int_ **getopt** _(int argc, char *const *argv, const char *options)_</code> | `<unistd.h>` | Parse short options (options with a single letter). |
+| <code>_int_ **getopt_long** _(int argc, char *const *argv, const char *shortopts, const struct option *longopts, int *indexptr)_</code> | `<getopt.h>` | Parse short options and long options. Short options begin with a single dash (`-`); long options begin with two dashes (`--`). |
+| <code>_int_ **getopt_long_only** _(int argc, char *const *argv, const char *shortopts, const struct option *longopts, int *indexptr)_</code> | `<getopt.h>` | Works like `getopt_long`, but it allows long options to begin with a single dash (`-`). If an option that starts with `-` (not `--`) doesn't match a long option, but does match a short option, it is parsed as a short option instead. |
+
+When parsing arguments, the `getopt`, `getopt_long` and `getopt_long_only` functions are called repeatedly so that every command line argument can be processed. When the processing is completed, these functions finally return -1 to indicate that no more option arguments are present.
 
 There are also four global variables that you can use with `#include <unistd.h>`:
 
