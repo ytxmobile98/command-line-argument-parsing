@@ -35,6 +35,8 @@ Here we will only present the examples to show you how these functions work:
 
 #### `getopt` Example
 
+> From: <https://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html>
+
 This is a simple program that illustrates how to use `getopt`. It takes two options: `-a` and `-b`. The `-b` option requires an argument. The program also prints the remaining arguments after the options.
 
 > Source: [`examples/c/getopt/main.c`](./examples/c/getopt/main.c)
@@ -67,6 +69,8 @@ int main(int argc, char *argv[]) {
 ```
 
 #### `getopt_long` Example
+
+> From: <https://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Option-Example.html>
 
 The program specifies the following options:
 
