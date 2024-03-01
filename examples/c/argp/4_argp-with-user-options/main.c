@@ -1,5 +1,5 @@
 /* This program uses the same features as example 3, but has more
-  options, and somewhat more structure in the -help output.  It
+  options, and somewhat more structure in the --help output.  It
   also shows how you can 'steal' the remainder of the input
   arguments past a certain point, for programs that accept a
   list of items.  It also shows the special argp KEY value
