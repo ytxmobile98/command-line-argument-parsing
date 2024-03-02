@@ -586,7 +586,7 @@ int main(int argc, char **argv) {
 
 ### Book: _Step-by-Step into Argp_
 
-The book [_Step-by-Step into Argp_](./step-by-step-into-argp/) provides step-by-step guides that cover the details of the Argp details. The code examples are also hosted in the [submodule](./step-by-step-into-argp/).
+The book [_Step-by-Step into Argp_](./step-by-step-into-argp/) provides step-by-step guides that cover the details of the Argp details. The code examples are also hosted in the [submodule](https://github.com/ytxmobile98/step-by-step-into-argp/).
 
 ## Parsing of Suboptions
 
