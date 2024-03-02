@@ -584,6 +584,10 @@ int main(int argc, char **argv) {
 }
 ```
 
+### Book: _Step-by-Step into Argp_
+
+The book [_Step-by-Step into Argp_](./step-by-step-into-argp/) provides step-by-step guides that cover the details of the Argp details. The code examples are also hosted in the [submodule](./step-by-step-into-argp/).
+
 ## Parsing of Suboptions
 
 Having a single level of options is sometimes not enough. There might be too many options which have to be available or a set of options is closely related. Some programs use **suboptions** to handle these cases.
