@@ -586,7 +586,11 @@ int main(int argc, char **argv) {
 
 ## Parsing of Suboptions
 
-Having a single level of options is sometimes not enough. There might be too many options which have to be available or a set of options is closely related. Some programs use **suboptions** to handle these cases. The `getsubopt` function is used to parse suboptions. For complete documentation, read the [GNU libc manual](https://www.gnu.org/software/libc/manual/html_node/Suboptions.html).
+Having a single level of options is sometimes not enough. There might be too many options which have to be available or a set of options is closely related. Some programs use **suboptions** to handle these cases.
+
+For each short option (starting with `-`) or long option (starting with `--`), the argument can be a string that contains a list of **suboptions**: suboptions are separated by comma (`,`); some suboptions may have arguments given after the equal sign (`=`). For example: **`ro,name=xyz`**.
+
+The `getsubopt` function is used to parse suboptions. For complete documentation, read the [GNU libc manual](https://www.gnu.org/software/libc/manual/html_node/Suboptions.html).
 
 | Function | Header File | Remarks |
 |----------|-------------|---------|
@@ -596,7 +600,7 @@ Having a single level of options is sometimes not enough. There might be too man
 
 > From: <https://www.gnu.org/software/libc/manual/html_node/Suboptions-Example.html>
 
-Here is an example of how to use `getsubopt`, which might appear in the `mount`(8) program.
+Here is an example of using `getsubopt`, which might appear in the `mount`(8) program.
 
 > Source: [`examples/c/getsubopt/main.c`](./examples/c/getsubopt/main.c)
 
