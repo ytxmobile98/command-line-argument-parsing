@@ -17,48 +17,48 @@ const char *mount_opts[] = {[RO_OPTION] = "ro",
                             [THE_END] = NULL};
 
 int main(int argc, char **argv) {
-  char *subopts, *value;
-  int opt;
+    char *subopts, *value;
+    int opt;
 
-  while ((opt = getopt(argc, argv, "at:o:")) != -1)
-    switch (opt) {
-    case 'a':
-      do_all = 1;
-      break;
-    case 't':
-      type = optarg;
-      break;
-    case 'o':
-      subopts = optarg;
-      while (*subopts != '\0')
-        switch (getsubopt(&subopts, mount_opts, &value)) {
-        case RO_OPTION:
-          read_only = 1;
-          break;
-        case RW_OPTION:
-          read_only = 0;
-          break;
-        case READ_SIZE_OPTION:
-          if (value == NULL)
-            abort();
-          read_size = atoi(value);
-          break;
-        case WRITE_SIZE_OPTION:
-          if (value == NULL)
-            abort();
-          write_size = atoi(value);
-          break;
+    while ((opt = getopt(argc, argv, "at:o:")) != -1)
+        switch (opt) {
+        case 'a':
+            do_all = 1;
+            break;
+        case 't':
+            type = optarg;
+            break;
+        case 'o':
+            subopts = optarg;
+            while (*subopts != '\0')
+                switch (getsubopt(&subopts, mount_opts, &value)) {
+                case RO_OPTION:
+                    read_only = 1;
+                    break;
+                case RW_OPTION:
+                    read_only = 0;
+                    break;
+                case READ_SIZE_OPTION:
+                    if (value == NULL)
+                        abort();
+                    read_size = atoi(value);
+                    break;
+                case WRITE_SIZE_OPTION:
+                    if (value == NULL)
+                        abort();
+                    write_size = atoi(value);
+                    break;
+                default:
+                    /* Unknown suboption. */
+                    printf("Unknown suboption `%s'\n", value);
+                        break;
+                }
+            break;
         default:
-          /* Unknown suboption. */
-          printf("Unknown suboption `%s'\n", value);
-          break;
+            abort();
         }
-      break;
-    default:
-      abort();
-    }
 
-  /* Do the real work. */
+    /* Do the real work. */
 
-  return 0;
+    return 0;
 }

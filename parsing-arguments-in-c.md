@@ -203,16 +203,16 @@ This is a minimal example of a program that uses Argp. It won't do much except g
 
 ```c
 /* This is (probably) the smallest possible program that
-  uses argp.  It won't do much except give an error
-  messages and exit when there are any arguments, and print
-  a (rather pointless) messages for -help. */
+    uses argp.  It won't do much except give an error
+    messages and exit when there are any arguments, and print
+    a (rather pointless) messages for –help. */
 
 #include <argp.h>
 #include <stdlib.h>
 
 int main(int argc, char **argv) {
-  argp_parse(0, argc, argv, 0, 0, 0);
-  exit(0);
+    argp_parse(0, argc, argv, 0, 0, 0);
+    exit(0);
 }
 ```
 
@@ -226,23 +226,23 @@ This program uses Argp to be compliant with the GNU standard command line format
 
 ```c
 /* This program doesn't use any options or arguments, but uses
-  argp to be compliant with the GNU standard command line
-  format.
+    argp to be compliant with the GNU standard command line
+    format.
 
-  In addition to making sure no arguments are given, and
-  implementing a --help option, this example will have a
-  --version option, and will put the given documentation string
-  and bug address in the --help output, as per GNU standards.
+    In addition to making sure no arguments are given, and
+    implementing a --help option, this example will have a
+    --version option, and will put the given documentation string
+    and bug address in the --help output, as per GNU standards.
 
-  The variable ARGP contains the argument parser specification;
-  adding fields to this structure is the way most parameters are
-  passed to argp_parse (the first three fields are usually used,
-  but not in this small program).  There are also two global
-  variables that argp knows about defined here,
-  ARGP_PROGRAM_VERSION and ARGP_PROGRAM_BUG_ADDRESS (they are
-  global variables because they will almost always be constant
-  for a given program, even if it uses different argument
-  parsers for various tasks). */
+    The variable ARGP contains the argument parser specification;
+    adding fields to this structure is the way most parameters are
+    passed to argp_parse (the first three fields are usually used,
+    but not in this small program).  There are also two global
+    variables that argp knows about defined here,
+    ARGP_PROGRAM_VERSION and ARGP_PROGRAM_BUG_ADDRESS (they are
+    global variables because they will almost always be constant
+    for a given program, even if it uses different argument
+    parsers for various tasks). */
 
 #include <argp.h>
 #include <stdlib.h>
@@ -254,15 +254,15 @@ const char *argp_program_bug_address = "<bug-gnu-utils@gnu.org>";
 static char doc[] = "Argp example #2 -- a pretty minimal program using argp";
 
 /* Our argument parser.  The options, parser, and
-  args_doc fields are zero because we have neither options or
-  arguments; doc and argp_program_bug_address will be
-  used in the output for '--help', and the '--version'
-  option will print out argp_program_version. */
+    args_doc fields are zero because we have neither options or
+    arguments; doc and argp_program_bug_address will be
+    used in the output for '--help', and the '--version'
+    option will print out argp_program_version. */
 static struct argp argp = {0, 0, 0, doc};
 
 int main(int argc, char **argv) {
-  argp_parse(&argp, argc, argv, 0, 0, 0);
-  exit(0);
+    argp_parse(&argp, argc, argv, 0, 0, 0);
+    exit(0);
 }
 ```
 
@@ -276,56 +276,56 @@ This program uses the same features as [Example 2](#example-2-a-program-using-ar
 
 ```c
 /* This program uses the same features as example 2, and uses options and
-  arguments.
+    arguments.
 
-  We now use the first four fields in ARGP, so here's a description of them:
-    OPTIONS  – A pointer to a vector of struct argp_option (see below)
-    PARSER   – A function to parse a single option, called by argp
-    ARGS_DOC – A string describing how the non-option arguments should look
-    DOC      – A descriptive string about this program; if it contains a
-                vertical tab character (\v), the part after it will be
-                printed *following* the options
+    We now use the first four fields in ARGP, so here's a description of them:
+        OPTIONS  – A pointer to a vector of struct argp_option (see below)
+        PARSER   – A function to parse a single option, called by argp
+        ARGS_DOC – A string describing how the non-option arguments should look
+        DOC      – A descriptive string about this program; if it contains a
+                    vertical tab character (\v), the part after it will be
+                    printed *following* the options
 
-  The function PARSER takes the following arguments:
-    KEY  – An integer specifying which option this is (taken
-            from the KEY field in each struct argp_option), or
-            a special key specifying something else; the only
-            special keys we use here are ARGP_KEY_ARG, meaning
-            a non-option argument, and ARGP_KEY_END, meaning
-            that all arguments have been parsed
-    ARG  – For an option KEY, the string value of its
-            argument, or NULL if it has none
-    STATE– A pointer to a struct argp_state, containing
-            various useful information about the parsing state; used here
-            are the INPUT field, which reflects the INPUT argument to
-            argp_parse, and the ARG_NUM field, which is the number of the
-            current non-option argument being parsed
-  It should return either 0, meaning success, ARGP_ERR_UNKNOWN, meaning the
-  given KEY wasn't recognized, or an errno value indicating some other
-  error.
+    The function PARSER takes the following arguments:
+        KEY  – An integer specifying which option this is (taken
+                from the KEY field in each struct argp_option), or
+                a special key specifying something else; the only
+                special keys we use here are ARGP_KEY_ARG, meaning
+                a non-option argument, and ARGP_KEY_END, meaning
+                that all arguments have been parsed
+        ARG  – For an option KEY, the string value of its
+                argument, or NULL if it has none
+        STATE– A pointer to a struct argp_state, containing
+                various useful information about the parsing state; used here
+                are the INPUT field, which reflects the INPUT argument to
+                argp_parse, and the ARG_NUM field, which is the number of the
+                current non-option argument being parsed
+    It should return either 0, meaning success, ARGP_ERR_UNKNOWN, meaning the
+    given KEY wasn't recognized, or an errno value indicating some other
+    error.
 
-  Note that in this example, main uses a structure to communicate with the
-  parse_opt function, a pointer to which it passes in the INPUT argument to
-  argp_parse.  Of course, it's also possible to use global variables
-  instead, but this is somewhat more flexible.
+    Note that in this example, main uses a structure to communicate with the
+    parse_opt function, a pointer to which it passes in the INPUT argument to
+    argp_parse.  Of course, it's also possible to use global variables
+    instead, but this is somewhat more flexible.
 
-  The OPTIONS field contains a pointer to a vector of struct argp_option's;
-  that structure has the following fields (if you assign your option
-  structures using array initialization like this example, unspecified
-  fields will be defaulted to 0, and need not be specified):
-    NAME   – The name of this option's long option (may be zero)
-    KEY    – The KEY to pass to the PARSER function when parsing this option,
-              *and* the name of this option's short option, if it is a
-              printable ascii character
-    ARG    – The name of this option's argument, if any
-    FLAGS  – Flags describing this option; some of them are:
-                OPTION_ARG_OPTIONAL – The argument to this option is optional
-                OPTION_ALIAS        – This option is an alias for the
-                                      previous option
-                OPTION_HIDDEN       – Don't show this option in --help output
-    DOC    – A documentation string for this option, shown in --help output
+    The OPTIONS field contains a pointer to a vector of struct argp_option's;
+    that structure has the following fields (if you assign your option
+    structures using array initialization like this example, unspecified
+    fields will be defaulted to 0, and need not be specified):
+        NAME   – The name of this option's long option (may be zero)
+        KEY    – The KEY to pass to the PARSER function when parsing this option,
+                *and* the name of this option's short option, if it is a
+                printable ascii character
+        ARG    – The name of this option's argument, if any
+        FLAGS  – Flags describing this option; some of them are:
+                    OPTION_ARG_OPTIONAL – The argument to this option is optional
+                    OPTION_ALIAS        – This option is an alias for the
+                                        previous option
+                    OPTION_HIDDEN       – Don't show this option in --help output
+        DOC    – A documentation string for this option, shown in --help output
 
-  An options vector should be terminated by an option with all fields zero. */
+    An options vector should be terminated by an option with all fields zero. */
 
 #include <argp.h>
 #include <stdlib.h>
@@ -334,8 +334,7 @@ const char *argp_program_version = "argp-ex3 1.0";
 const char *argp_program_bug_address = "<bug-gnu-utils@gnu.org>";
 
 /* Program documentation. */
-static char doc[] =
-    "Argp example #3 -- a program with options and arguments using argp";
+static char doc[] = "Argp example #3 -- a program with options and arguments using argp";
 
 /* A description of the arguments we accept. */
 static char args_doc[] = "ARG1 ARG2";
@@ -350,71 +349,71 @@ static struct argp_option options[] = {
 
 /* Used by main to communicate with parse_opt. */
 struct arguments {
-  char *args[2]; /* arg1 & arg2 */
-  int silent, verbose;
-  char *output_file;
+    char *args[2]; /* arg1 & arg2 */
+    int silent, verbose;
+    char *output_file;
 };
 
 /* Parse a single option. */
 static error_t parse_opt(int key, char *arg, struct argp_state *state) {
-  /* Get the input argument from argp_parse, which we
-     know is a pointer to our arguments structure. */
-  struct arguments *arguments = state->input;
+    /* Get the input argument from argp_parse, which we
+      know is a pointer to our arguments structure. */
+    struct arguments *arguments = state->input;
 
-  switch (key) {
-  case 'q':
-  case 's':
-    arguments->silent = 1;
-    break;
-  case 'v':
-    arguments->verbose = 1;
-    break;
-  case 'o':
-    arguments->output_file = arg;
-    break;
+    switch (key) {
+    case 'q':
+    case 's':
+        arguments->silent = 1;
+        break;
+    case 'v':
+        arguments->verbose = 1;
+        break;
+    case 'o':
+        arguments->output_file = arg;
+        break;
 
-  case ARGP_KEY_ARG:
-    if (state->arg_num >= 2)
-      /* Too many arguments. */
-      argp_usage(state);
+    case ARGP_KEY_ARG:
+        if (state->arg_num >= 2)
+            /* Too many arguments. */
+            argp_usage(state);
 
-    arguments->args[state->arg_num] = arg;
+        arguments->args[state->arg_num] = arg;
 
-    break;
+        break;
 
-  case ARGP_KEY_END:
-    if (state->arg_num < 2)
-      /* Not enough arguments. */
-      argp_usage(state);
-    break;
+    case ARGP_KEY_END:
+        if (state->arg_num < 2)
+            /* Not enough arguments. */
+            argp_usage(state);
+        break;
 
-  default:
-    return ARGP_ERR_UNKNOWN;
-  }
-  return 0;
+    default:
+        return ARGP_ERR_UNKNOWN;
+    }
+    return 0;
 }
 
 /* Our argp parser. */
 static struct argp argp = {options, parse_opt, args_doc, doc};
 
 int main(int argc, char **argv) {
-  struct arguments arguments;
+    struct arguments arguments;
 
-  /* Default values. */
-  arguments.silent = 0;
-  arguments.verbose = 0;
-  arguments.output_file = "-";
+    /* Default values. */
+    arguments.silent = 0;
+    arguments.verbose = 0;
+    arguments.output_file = "-";
 
-  /* Parse our arguments; every option seen by parse_opt will
-     be reflected in arguments. */
-  argp_parse(&argp, argc, argv, 0, 0, &arguments);
+    /* Parse our arguments; every option seen by parse_opt will
+      be reflected in arguments. */
+    argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  printf("ARG1 = %s\nARG2 = %s\nOUTPUT_FILE = %s\n"
-         "VERBOSE = %s\nSILENT = %s\n",
-         arguments.args[0], arguments.args[1], arguments.output_file,
-         arguments.verbose ? "yes" : "no", arguments.silent ? "yes" : "no");
+    printf("ARG1 = %s\nARG2 = %s\nOUTPUT_FILE = %s\n"
+        "VERBOSE = %s\nSILENT = %s\n",
+        arguments.args[0], arguments.args[1], arguments.output_file,
+        arguments.verbose ? "yes" : "no", arguments.silent ? "yes" : "no");
 
-  exit(0);
+    exit(0);
 }
 ```
 
@@ -473,114 +472,112 @@ static char args_doc[] = "ARG1 [STRING...]";
 
 /* The options we understand. */
 static struct argp_option options[] = {
-  {"verbose", 'v', 0, 0, "Produce verbose output"},
-  {"quiet", 'q', 0, 0, "Don't produce any output"},
-  {"silent", 's', 0, OPTION_ALIAS},
-  {"output", 'o', "FILE", 0, "Output to FILE instead of standard output"},
-
-  {0, 0, 0, 0, "The following options should be grouped together:"},
-  {"repeat", 'r', "COUNT", OPTION_ARG_OPTIONAL,
-    "Repeat the output COUNT (default 10) times"},
-  {"abort", OPT_ABORT, 0, 0, "Abort before showing any output"},
-
-  {0}};
+    {"verbose", 'v', 0, 0, "Produce verbose output"},
+    {"quiet", 'q', 0, 0, "Don't produce any output"},
+    {"silent", 's', 0, OPTION_ALIAS},
+    {"output", 'o', "FILE", 0, "Output to FILE instead of standard output"},
+    {0, 0, 0, 0, "The following options should be grouped together:"},
+    {"repeat", 'r', "COUNT", OPTION_ARG_OPTIONAL, "Repeat the output COUNT (default 10) times"},
+    {"abort", OPT_ABORT, 0, 0, "Abort before showing any output"},
+    {0},
+};
 
 /* Used by main to communicate with parse_opt. */
 struct arguments {
-  char *arg1;                 /* arg1 */
-  char **strings;             /* [string…] */
-  int silent, verbose, abort; /* '-s', '-v', '--abort' */
-  char *output_file;          /* file arg to '--output' */
-  int repeat_count;           /* count arg to '--repeat' */
+    char *arg1;                 /* arg1 */
+    char **strings;             /* [string…] */
+    int silent, verbose, abort; /* '-s', '-v', '--abort' */
+    char *output_file;          /* file arg to '--output' */
+    int repeat_count;           /* count arg to '--repeat' */
 };
 
 /* Parse a single option. */
 static error_t parse_opt(int key, char *arg, struct argp_state *state) {
-  /* Get the input argument from argp_parse, which we
-    know is a pointer to our arguments structure. */
-struct arguments *arguments = state->input;
+    /* Get the input argument from argp_parse, which we
+        know is a pointer to our arguments structure. */
+    struct arguments *arguments = state->input;
 
-  switch (key) {
-  case 'q':
-  case 's':
-    arguments->silent = 1;
-    break;
-  case 'v':
-    arguments->verbose = 1;
-    break;
-  case 'o':
-    arguments->output_file = arg;
-    break;
-  case 'r':
-    arguments->repeat_count = arg ? atoi(arg) : 10;
-    break;
-  case OPT_ABORT:
-    arguments->abort = 1;
-    break;
+    switch (key) {
+    case 'q':
+    case 's':
+        arguments->silent = 1;
+        break;
+    case 'v':
+        arguments->verbose = 1;
+        break;
+    case 'o':
+        arguments->output_file = arg;
+        break;
+    case 'r':
+        arguments->repeat_count = arg ? atoi(arg) : 10;
+        break;
+    case OPT_ABORT:
+        arguments->abort = 1;
+        break;
 
-  case ARGP_KEY_NO_ARGS:
-    argp_usage(state);
+    case ARGP_KEY_NO_ARGS:
+        argp_usage(state);
 
-  case ARGP_KEY_ARG:
-    /* Here we know that state->arg_num == 0, since we
-      force argument parsing to end before any more arguments can
-      get here. */
-    arguments->arg1 = arg;
+    case ARGP_KEY_ARG:
+        /* Here we know that state->arg_num == 0, since we
+          force argument parsing to end before any more arguments can
+          get here. */
+        arguments->arg1 = arg;
 
-    /* Now we consume all the rest of the arguments.
-      state->next is the index in state->argv of the
-      next argument to be parsed, which is the first string
-      we're interested in, so we can just use
-      &state->argv[state->next] as the value for
-      arguments->strings.
+        /* Now we consume all the rest of the arguments.
+            state->next is the index in state->argv of the
+            next argument to be parsed, which is the first string
+            we're interested in, so we can just use
+            &state->argv[state->next] as the value for
+            arguments->strings.
 
-      In addition, by setting state->next to the end
-      of the arguments, we can force argp to stop parsing here and
-      return. */
-    arguments->strings = &state->argv[state->next];
-    state->next = state->argc;
+            In addition, by setting state->next to the end
+            of the arguments, we can force argp to stop parsing here and
+            return. */
+        arguments->strings = &state->argv[state->next];
+        state->next = state->argc;
 
-    break;
+        break;
 
-  default:
-    return ARGP_ERR_UNKNOWN;
-  }
-  return 0;
+    default:
+        return ARGP_ERR_UNKNOWN;
+    }
+    return 0;
 }
 
 /* Our argp parser. */
 static struct argp argp = {options, parse_opt, args_doc, doc};
 
 int main(int argc, char **argv) {
-  int i, j;
-  struct arguments arguments;
+    int i, j;
+    struct arguments arguments;
 
-  /* Default values. */
-  arguments.silent = 0;
-  arguments.verbose = 0;
-  arguments.output_file = "-";
-  arguments.repeat_count = 1;
-  arguments.abort = 0;
+    /* Default values. */
+    arguments.silent = 0;
+    arguments.verbose = 0;
+    arguments.output_file = "-";
+    arguments.repeat_count = 1;
+    arguments.abort = 0;
 
-  /* Parse our arguments; every option seen by parse_opt will be
-     reflected in arguments. */
-  argp_parse(&argp, argc, argv, 0, 0, &arguments);
+    /* Parse our arguments; every option seen by parse_opt will be
+      reflected in arguments. */
+    argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  if (arguments.abort)
-    error(10, 0, "ABORTED");
+    if (arguments.abort)
+        error(10, 0, "ABORTED");
 
-  for (i = 0; i < arguments.repeat_count; i++) {
-    printf("ARG1 = %s\n", arguments.arg1);
-    printf("STRINGS = ");
-    for (j = 0; arguments.strings[j]; j++)
-      printf(j == 0 ? "%s" : ", %s", arguments.strings[j]);
-    printf("\n");
-    printf("OUTPUT_FILE = %s\nVERBOSE = %s\nSILENT = %s\n",
-           arguments.output_file, arguments.verbose ? "yes" : "no",
-           arguments.silent ? "yes" : "no");
-  }
+    for (i = 0; i < arguments.repeat_count; i++) {
+        printf("ARG1 = %s\n", arguments.arg1);
+        printf("STRINGS = ");
+        for (j = 0; arguments.strings[j]; j++)
+            printf(j == 0 ? "%s" : ", %s", arguments.strings[j]);
+        printf("\n");
+        printf("OUTPUT_FILE = %s\nVERBOSE = %s\nSILENT = %s\n",
+            arguments.output_file, arguments.verbose ? "yes" : "no",
+            arguments.silent ? "yes" : "no");
+    }
 
-  exit(0);
+    exit(0);
 }
 ```
 
@@ -628,50 +625,50 @@ const char *mount_opts[] = {[RO_OPTION] = "ro",
                             [THE_END] = NULL};
 
 int main(int argc, char **argv) {
-  char *subopts, *value;
-  int opt;
+    char *subopts, *value;
+    int opt;
 
-  while ((opt = getopt(argc, argv, "at:o:")) != -1)
-    switch (opt) {
-    case 'a':
-      do_all = 1;
-      break;
-    case 't':
-      type = optarg;
-      break;
-    case 'o':
-      subopts = optarg;
-      while (*subopts != '\0')
-        switch (getsubopt(&subopts, mount_opts, &value)) {
-        case RO_OPTION:
-          read_only = 1;
-          break;
-        case RW_OPTION:
-          read_only = 0;
-          break;
-        case READ_SIZE_OPTION:
-          if (value == NULL)
-            abort();
-          read_size = atoi(value);
-          break;
-        case WRITE_SIZE_OPTION:
-          if (value == NULL)
-            abort();
-          write_size = atoi(value);
-          break;
+    while ((opt = getopt(argc, argv, "at:o:")) != -1)
+        switch (opt) {
+        case 'a':
+            do_all = 1;
+            break;
+        case 't':
+            type = optarg;
+            break;
+        case 'o':
+            subopts = optarg;
+            while (*subopts != '\0')
+                switch (getsubopt(&subopts, mount_opts, &value)) {
+                case RO_OPTION:
+                    read_only = 1;
+                    break;
+                case RW_OPTION:
+                    read_only = 0;
+                    break;
+                case READ_SIZE_OPTION:
+                    if (value == NULL)
+                        abort();
+                    read_size = atoi(value);
+                    break;
+                case WRITE_SIZE_OPTION:
+                    if (value == NULL)
+                        abort();
+                    write_size = atoi(value);
+                    break;
+                default:
+                    /* Unknown suboption. */
+                    printf("Unknown suboption `%s'\n", value);
+                        break;
+                }
+            break;
         default:
-          /* Unknown suboption. */
-          printf("Unknown suboption `%s'\n", value);
-          break;
+            abort();
         }
-      break;
-    default:
-      abort();
-    }
 
-  /* Do the real work. */
+    /* Do the real work. */
 
-  return 0;
+    return 0;
 }
 ```
 
