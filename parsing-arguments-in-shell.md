@@ -50,3 +50,202 @@ Option b: 2
 Illegal option -c
 Invalid option: -?
 ```
+
+## `getopt`
+
+_**Note:** This section talks about the **Linux version** of `getopt`._
+
+`getopt` takes one of the three following forms:
+
+```bash
+getopt optstring parameters
+getopt [options] [--] optstring parameters
+getopt [options] -o|--options optstring [options] [--] parameters
+```
+
+Options:
+
+```
+-a, --alternative             allow long options starting with single -
+-l, --longoptions <longopts>  the long options to be recognized
+-n, --name <progname>         the name under which errors are reported
+-o, --options <optstring>     the short options to be recognized
+-q, --quiet                   disable error reporting by getopt(3)
+-Q, --quiet-output            no normal output
+-s, --shell <shell>           set quoting conventions to those of <shell>
+-T, --test                    test for getopt(1) version
+-u, --unquoted                do not quote the output
+
+-h, --help                    display this help
+-V, --version                 display version
+```
+
+The `optstring` is a string of recognized option characters. If a character is followed by a colon (`:`), the option requires an argument. The `parameters` is the list of command line arguments to be parsed.
+
+After running `getopt`, the arguments will be permuted: all the option arguments will appear first, followed by `--`, and then the non-option arguments. The output can then be easily parsed by the shell.
+
+### Examples
+
+Here are two examples provided by the `getopt` manual page, written in Bash and Tcsh syntax respectively, located in the `/usr/share/doc/util-linux/examples` directory.
+
+#### [Bash version](./examples/shell/getopt-example.bash)
+
+```bash
+#!/bin/bash
+
+# A small example script for using the getopt(1) program.
+# This script will only work with bash(1).
+# A similar script using the tcsh(1) language can be found
+# as getopt-example.tcsh.
+
+# Example input and output (from the bash prompt):
+#
+# ./getopt-example.bash -a par1 'another arg' --c-long 'wow!*\?' -cmore -b " very long "
+# Option a
+# Option c, no argument
+# Option c, argument 'more'
+# Option b, argument ' very long '
+# Remaining arguments:
+# --> 'par1'
+# --> 'another arg'
+# --> 'wow!*\?'
+
+# Note that we use "$@" to let each command-line parameter expand to a
+# separate word. The quotes around "$@" are essential!
+# We need TEMP as the 'eval set --' would nuke the return value of getopt.
+TEMP=$(getopt -o 'ab:c::' --long 'a-long,b-long:,c-long::' -n 'example.bash' -- "$@")
+
+if [ $? -ne 0 ]; then
+	echo 'Terminating...' >&2
+	exit 1
+fi
+
+# Note the quotes around "$TEMP": they are essential!
+eval set -- "$TEMP"
+unset TEMP
+
+while true; do
+	case "$1" in
+		'-a'|'--a-long')
+			echo 'Option a'
+			shift
+			continue
+		;;
+		'-b'|'--b-long')
+			echo "Option b, argument '$2'"
+			shift 2
+			continue
+		;;
+		'-c'|'--c-long')
+			# c has an optional argument. As we are in quoted mode,
+			# an empty parameter will be generated if its optional
+			# argument is not found.
+			case "$2" in
+				'')
+					echo 'Option c, no argument'
+				;;
+				*)
+					echo "Option c, argument '$2'"
+				;;
+			esac
+			shift 2
+			continue
+		;;
+		'--')
+			shift
+			break
+		;;
+		*)
+			echo 'Internal error!' >&2
+			exit 1
+		;;
+	esac
+done
+
+echo 'Remaining arguments:'
+for arg; do
+	echo "--> '$arg'"
+done
+```
+
+#### [Tcsh version](./examples/shell/getopt-example.tcsh)
+
+```tcsh
+#!/bin/tcsh
+
+# A small example script for using the getopt(1) program.
+# This script will only work with tcsh(1).
+# A similar script using the bash(1) language can be found
+# as getopt-example.bash.
+
+# Example input and output (from the tcsh prompt):
+# ./getopt-example.tcsh -a par1 'another arg' --c-long 'wow\!*\?' -cmore -b " very long "
+# Option a
+# Option c, no argument
+# Option c, argument `more'
+# Option b, argument ` very long '
+# Remaining arguments:
+# --> `par1'
+# --> `another arg'
+# --> `wow!*\?'
+
+# Note that we had to escape the exclamation mark in the wow-argument. This
+# is _not_ a problem with getopt, but with the tcsh command parsing. If you
+# would give the same line from the bash prompt (ie. call ./parse.tcsh),
+# you could remove the exclamation mark.
+
+# This is a bit tricky. We use a temp variable, to be able to check the
+# return value of getopt (eval nukes it). argv contains the command arguments
+# as a list. The ':q`  copies that list without doing any substitutions:
+# each element of argv becomes a separate argument for getopt. The braces
+# are needed because the result is also a list.
+set temp=(`getopt -s tcsh -o ab:c:: --long a-long,b-long:,c-long:: -- $argv:q`)
+if ($? != 0) then
+  echo "Terminating..." >/dev/stderr
+  exit 1
+endif
+
+# Now we do the eval part. As the result is a list, we need braces. But they
+# must be quoted, because they must be evaluated when the eval is called.
+# The 'q` stops doing any silly substitutions.
+eval set argv=\($temp:q\)
+
+while (1)
+	switch($1:q)
+	case -a:
+	case --a-long:
+		echo "Option a" ; shift
+		breaksw;
+	case -b:
+	case --b-long:
+		echo "Option b, argument "\`$2:q\' ; shift ; shift
+		breaksw
+	case -c:
+	case --c-long:
+		# c has an optional argument. As we are in quoted mode,
+		# an empty parameter will be generated if its optional
+		# argument is not found.
+
+		if ($2:q == "") then
+			echo "Option c, no argument"
+		else
+			echo "Option c, argument "\`$2:q\'
+		endif
+		shift; shift
+		breaksw
+	case --:
+		shift
+		break
+	default:
+		echo "Internal error!" ; exit 1
+	endsw
+end
+
+echo "Remaining arguments:"
+# foreach el ($argv:q) created problems for some tcsh-versions (at least
+# 6.02). So we use another shift-loop here:
+while ($#argv > 0)
+	echo '--> '\`$1:q\'
+	shift
+end
+```
