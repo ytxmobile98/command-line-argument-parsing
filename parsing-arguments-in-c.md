@@ -46,6 +46,9 @@ This is a simple program that illustrates how to use `getopt`. It takes two opti
 #include <stdlib.h>
 #include <unistd.h>
 
+extern int optind;
+extern char *optarg;
+
 int main(int argc, char *argv[]) {
     int opt;
     while ((opt = getopt(argc, argv, "ab:")) != -1) {
@@ -609,6 +612,9 @@ Here is an example of using `getsubopt`, which might appear in the `mount`(8) pr
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+extern int optind;
+extern char *optarg;
 
 int do_all;
 const char *type;

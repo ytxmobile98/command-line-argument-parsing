@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+extern int optind;
+extern char *optarg;
+
 int do_all;
 const char *type;
 int read_size;
