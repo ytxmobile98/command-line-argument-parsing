@@ -680,3 +680,4 @@ int main(int argc, char **argv) {
         * [Parsing Program Arguments Using `getopt`](https://www.gnu.org/software/libc/manual/html_node/Getopt.html)
         * [Parsing Program Arguments with Argp](https://www.gnu.org/software/libc/manual/html_node/Argp.html)
         * [Parsing of Suboptions](https://www.gnu.org/software/libc/manual/html_node/Suboptions.html)
+* [Book: _Step-by-Step into Argp_](http://nongnu.askapache.com/argpbook/step-by-step-into-argp.pdf)
